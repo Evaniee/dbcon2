@@ -85,6 +85,7 @@ namespace dbcon2
             return properties;
         }
     }
+
     class DBException : System.Exception
     {
         public DBException(string message) : base(message) { }
