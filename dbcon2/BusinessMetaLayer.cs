@@ -54,6 +54,37 @@ namespace dbcon2
             return customers;
         }
 
-       
+        public List<Vendor> GetVendors()
+        {
+            List<Vendor> l_vendors = new List<Vendor>();
+
+            DbConection l_connection = DbFactory.instance();
+            if (l_connection.OpenConnection())
+            {
+                // Select all fields from vendor
+                DbDataReader l_reader = l_connection.Select("SELECT * FROM customers;");
+
+                //Read the data and store them in the list
+                while (l_reader.Read())
+                {
+                    Vendor l_vendor = new Vendor();
+                    l_vendor.ID = l_reader.GetInt32(0);
+                    l_vendor.Name = l_reader.GetString(1);
+                    l_vendor.Address = l_reader.GetString(2);
+                    l_vendor.City = l_reader.GetString(3);
+                    l_vendor.State = l_reader.GetString(4);
+                    l_vendor.Zip = l_reader.GetString(5);
+                    l_vendor.Country = l_reader.GetString(6);
+
+                    l_vendors.Add(l_vendor);
+                }
+
+                //close Data Reader
+                l_reader.Close();
+                l_connection.CloseConnection();
+            }
+
+            return l_vendors;
+        }
     }
 }
